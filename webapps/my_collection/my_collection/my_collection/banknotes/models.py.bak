@@ -1,0 +1,180 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
+import tagging
+from tagging.fields import TagField
+
+class Country(models.Model):
+    """ model class containing information about a Countries; 
+        
+    """
+
+    name = models.CharField(max_length=50)
+    url = models.URLField(max_length=200, null=True, blank=True)
+
+    # Common Fields in all tables start
+    is_active = models.BooleanField(default=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # Common Fields in all tables end
+
+    def __unicode__(self):
+        return unicode(self.name)
+    
+    class Meta:
+        db_table = 'Country'
+        verbose_name_plural = 'Countries'
+
+class CurrencyUnit(models.Model):
+    """ model class containing information about a Currency Unit
+    e.g. 
+    (Country, Code, Unit, UnitSymbol, isSubUnit)
+    (India, INR, R, Rupees, 0)
+    (India, INR, P, Paisa, 1)
+    (USA, USD, $, Dollar, 0)
+    (NZ, NSD, $ Dollar, 0)
+    (NZ, NZP, L, Pound, 0)
+    (NZ, NZP, s, Shillings, 1)
+    (NZ, NZP, c, Cent, 1)
+    """
+
+    country = models.ForeignKey(Country)
+    code = models.CharField(max_length=3)
+    symbol = models.CharField(max_length=3)
+    unit = models.CharField(max_length=50)
+    is_subunit = models.BooleanField(default=False) #TBD how to handle multiple sub units
+    url = models.URLField(max_length=200, null=True, blank=True)
+
+    # Common Fields in all tables start
+    is_active = models.BooleanField(default=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # Common Fields in all tables end
+
+    def __unicode__(self):
+        return unicode(self.code + ' - ' + self.unit + '(' + self.symbol + ')') 
+    
+    class Meta:
+        db_table = 'CurrencyInfo'
+        verbose_name_plural = 'CurrencyInfos'
+
+class Mint(models.Model):
+    """ model class containing information about a Mint; 
+        
+    """
+
+    name = models.CharField(max_length=100)
+    country = models.ForeignKey(Country)
+    url = models.URLField(max_length=200, null=True, blank=True)
+
+    # Common Fields in all tables start
+    is_active = models.BooleanField(default=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # Common Fields in all tables end
+
+    def __unicode__(self):
+        return unicode(self.name)
+    
+    class Meta:
+        db_table = 'Mint'
+        verbose_name_plural = 'Mints'
+
+class Bank(models.Model):
+    """ model class containing information about a Banks; 
+        
+    """
+
+    name = models.CharField(max_length=100)
+    country = models.ForeignKey(Country)
+    url = models.URLField(max_length=200, null=True, blank=True)
+
+    # Common Fields in all tables start
+    is_active = models.BooleanField(default=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # Common Fields in all tables end
+
+    def __unicode__(self):
+        return unicode(self.name)
+    
+    class Meta:
+        db_table = 'Bank'
+        verbose_name_plural = 'Banks'
+
+    
+class BankNote(models.Model):
+    """ model class containing information about a Collectible Type; 
+        
+    """    
+
+    GRADE_CHOICE = (
+        (u'UNC', u'Uncirculated (UNC)'),
+        (u'AU', u'About uncirculated (AU)'),
+        (u'EF', u'Extremely fine (XF or EF)'),
+        (u'VF', u'Very Fine (VF)'),
+        (u'F', u'Fine (F)'),
+        (u'VG', u'Very Good (VG)'),
+        (u'G', u'Good (G)'),
+        (u'Fair', u'Fair'),
+        (u'Poor', u'Poor'),
+    )
+    
+    MATERIAL_CHOICE = (
+        (u'Paper', u'Paper'),
+        (u'Polymer', u'Polymer'),
+    )
+
+    STATUS_CHOICE = (
+        (u'In-circulation', u'In-circulation'),
+        (u'Dis-continued', u'Dis-continued'),
+    )
+    
+    user = models.ForeignKey(User)
+    bank = models.ForeignKey(Bank)
+    mint = models.ForeignKey(Mint)
+    unit = models.ForeignKey(CurrencyUnit)
+    value = models.IntegerField(max_length=10)
+    signed_by = models.CharField(max_length=50, null=True, blank=True)
+    series = models.CharField(max_length=100, null=True, blank=True)
+    serial_number = models.CharField(max_length=100, null=True, blank=True)
+    material = models.CharField(max_length=10, choices=MATERIAL_CHOICE)
+    obverse_img = models.ImageField(upload_to='photos/%Y/%m/%d')
+    obverse_desc = models.TextField(null=True, blank=True)
+    reverse_img = models.ImageField(upload_to='photos/%Y/%m/%d')
+    reverse_desc = models.TextField(null=True, blank=True)
+    grade = models.CharField(max_length=5, choices=GRADE_CHOICE)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICE)
+    main_color = models.CharField(max_length=100, null=True, blank=True)
+    issue_date = models.DateField()
+    dimensions = models.CharField(max_length=100, null=True, blank=True)
+    url = models.URLField(max_length=200, null=True, blank=True)
+    tags_input = TagField()
+
+    # Common Fields in all tables start
+    is_active = models.BooleanField(default=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # Common Fields in all tables end
+
+    def __unicode__(self):
+        return u'%s, %s, %s' % (self.user.username, self.bank.name, self.bank.country.name)
+
+    def get_absolute_url(self):
+        return self.url
+
+    class Meta:
+        db_table = 'BankNote'
+        verbose_name_plural = 'BankNotes'
+
+
+try:
+   tagging.register(BankNote)
+except tagging.AlreadyRegistered:
+   pass

@@ -1,0 +1,136 @@
+{% extends "site_base.html" %}
+
+{% block title %}Banknotes Collection{% endblock %}
+
+{% load tagging_tags %}
+
+{% block content %}
+	{% if current_tag %}
+		<h1>Contents of Tag: {{ current_tag }}</h1>
+	{% else %}
+		<h1>Welcome to My Collection!</h1>
+	{% endif %}
+	{% if banknote_list_page %}
+		<table id="banknote-list-item">
+			<tr>
+				<th>obverse_img</th>
+				<th>reverse_img</th>
+				<th>country</th>
+				<th>bank</th>
+				<th>mint</th>
+				<th>unit</th>
+				<th>value</th>
+				<th>signed_by</th>
+				<th>series</th>
+				<th>material</th>
+				<th>grade</th>
+				<th>main_color</th>
+				<th>issue_date</th>
+				<th>dimensions</th>
+				<th>url</th>
+				<th>tags</th>
+			</tr>
+			{% for bn in banknote_list_page.object_list %}
+				<tr>
+					<td>
+						<a href="/banknotes/{{ bn.id }}/details/">
+							<img src="{{ MEDIA_URL }}{{ bn.obverse_img }}" height="100" width="200" />
+							<br />
+						</a>
+					</td>
+					<td>				
+						<a href="/banknotes/{{ bn.id }}/details/">
+							<img src="{{ MEDIA_URL }}{{ bn.reverse_img }}" height="100" width="200" />
+							<br />
+						</a>
+					</td>			
+					<td>{{ bn.bank.country }}</td>
+					<td>{{ bn.bank }}</td>
+					<td>{{ bn.mint }}</td>
+					<td>{{ bn.unit }}</td>
+					<td>{{ bn.value }}</td>
+					<td>{{ bn.signed_by }}</td>
+					<td>{{ bn.series }}</td>
+					<td>{{ bn.material }}</td>
+					<td>{{ bn.grade }}</td>
+					<td>{{ bn.main_color }}</td>
+					<td>{{ bn.issue_date }}</td>
+					<td>{{ bn.dimensions }}</td>
+					<td>{{ bn.url }}</td>
+					<td>
+						{% for tag in bn.tags %}
+							<a href="/banknotes/user/{{ user.username }}/tag/{{ tag.name|slugify }}">{{ tag.name }}</a>
+						{% endfor %}
+					</td>	
+				</tr>
+			{% endfor %}
+	    </table>
+		<br/>
+		<br/>
+		<div class="pagination">
+		    <span class="step-links">
+		        {% if banknote_list_page.has_previous %}
+		            <a href="/banknotes/user/{{ user.username }}/{{ banknote_list_page.previous_page_number }}/">previous</a>
+		        {% endif %}
+		
+		        <span class="current">
+		            [ Page {{ banknote_list_page.number }} of {{ banknote_list_page.paginator.num_pages }} ]
+		        </span>
+		
+		        {% if banknote_list_page.has_next %}
+		            <a href="/banknotes/user/{{ user.username }}/{{ banknote_list_page.next_page_number }}/">next</a>
+		        {% endif %}
+		    </span>
+		</div>
+	{% else %}
+		No banknotes present.
+	{% endif %}
+	
+	<br/>
+
+	<h2>Friends:</h2>
+	<div class="user-friend">
+		{% ifequal user.username username %}
+			<a href="/accounts/friends/{{ user.username }}/">view your friends</a>
+		{% else %}
+			{% if is_friend %}
+				<a href="/accounts/friends/{{ user.username }}/">{{ username }} is a friend of yours</a>
+			{% else %}
+				<a href="/accounts/friend/add/?username={{ username }}">add {{ username }} to your friends</a>
+			{% endif %}
+			- <a href="/accounts/friends/{{ username }}/">view {{username }}'s friends</a>
+		{% endifequal %}
+	</div>
+	
+	</br>
+	
+	<h2>All Tags with count:</h2>		
+	<div class="tags-with-count">
+		{% tags_for_model banknotes.BankNote as tags with counts %}
+		{% if tags %}
+			{% for tag in tags %}
+			    <div>
+					<a href="/banknotes/user/{{ user.username }}/tag/{{ tag|slugify }}">{{ tag }}</a>	        
+			        <span class="tag_count">({{ tag.count }})</span>
+			    </div>
+			{% endfor %}
+		{% else %}
+			Currently no tags are available.
+		{% endif%}
+	</div>
+
+	</br>
+	
+	<h2>Tag Cloud:</h2>	
+	<div class="tag-cloud">
+		{% if tags %}
+			{% tag_cloud_for_model banknotes.BankNote as tags with steps=10 min_count=1 distribution=log %}
+		    {% for tag in tags %}
+		    	<a class="tag-{{ tag.font_size }}" href="/banknotes/user/{{ user.username }}/tag/{{ tag }}/">{{ tag }}</a>
+		    {% endfor %}
+		{% else %}
+			Currently no tags are available.
+		{% endif%}
+	</div>
+			    	
+{% endblock %}

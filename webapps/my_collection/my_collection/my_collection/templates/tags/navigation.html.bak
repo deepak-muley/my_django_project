@@ -1,0 +1,10 @@
+<ul>
+	<li><a href="{% url my_collection.views.user_home user_name=user.username %}">Home</a></li>
+	<li><a href="{% url about %}">About</a></li>
+	<li><a href="{% url contact %}">Contact</a></li>
+</ul>
+<!--
+<div id="scratch-pad-links">
+	<a href="/scratch_pad/">HTML Scratch Pad</a><li>
+</div>
+-->

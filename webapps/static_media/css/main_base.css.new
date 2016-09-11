@@ -1,0 +1,409 @@
+/*@import url("reset.css");*/
+
+/*reset*/
+body, div, h1, h2, h3, h4, h5, h6, p, ul, ol, li, dl, dt, dd, img, form, fieldset, input, textarea, blockquote {
+	margin: 0; padding: 0; border: 0;
+}
+
+body {
+	background: #dedede /*url(images/bg.jpg)*/ ;
+	font-family: 'Droid Serif', serif; font-size: 14px;
+	line-height: 24px;
+	color: #666;
+}
+
+a {
+	color: #4b7ea9; font-style: italic;
+}
+        a:hover {
+                color: #105896;
+        }
+
+header a, h2 a {
+	color: #666; font-style: normal; text-decoration: none;
+}
+
+#container {
+	margin: 0 auto; padding: 48px 0 48px 0;
+	overflow: hidden;
+}
+
+/* main css */
+
+/* HTML5 */
+header {
+	margin: 0 auto; padding: 10px 22px 50px 22px;
+}
+
+	header h1 {
+		float: left; font-size: 36px;
+		font-weight: normal;
+	}
+
+	header nav {
+		float: right; text-align: right;
+		padding: 0 0 0 0;
+	}
+		header nav ul {
+			list-style: none;
+		}
+			header nav li {
+				display: block;
+				float: left; font-size: 18px;
+				width: 150px; margin: 0 0 0 0;
+			}
+
+			header li a:hover {
+				background: LightGray;
+			}
+			
+			header nav li:nth-child(1):before {
+				content: "";
+				color: #a2a2a2;
+			}
+			header nav li:nth-child(2):before {
+				content: "";
+				color: #a2a2a2;
+			}
+			header nav li:nth-child(3):before {
+				content: "";
+				color: #a2a2a2;
+			}
+
+#content {
+	float: left; width: 700px;
+	margin: 0 98px 0 0;
+}
+
+	#content article {
+		margin: 0 0 67px 0;
+	}
+		#content article h2 {
+			font-size: 30px; margin: 0 0 29px 0;
+			font-weight: normal;
+		}
+
+		#content p {
+			margin: 0 0 24px 100px;
+		}
+
+		#content .postinfo {
+			list-style: none; overflow: hidden;
+		}
+			#content .postinfo li {
+				float: left; width: 136px; margin: 0 20px 0 0;
+				font-style: italic; color: #a2a2a2;
+			}
+
+#pagination {
+	overflow: hidden; margin: 0 0 200px 0;
+}
+	#pagination ul {
+		list-style: none;
+	}
+		#pagination li {
+			font-size: 18px;
+		}
+			#pagination li.older {
+				float: left;
+			}
+			#pagination li.newer {
+				float: right;
+			}
+                        
+#sidebar {
+	width: 292px; float: left;
+	padding: 4px 0 0 0;
+}
+	#sidebar h3 {
+		font-size: 18px; font-weight: normal;
+		margin: 0 0 25px 0;
+	}		
+
+	#sidebar ul {
+		list-style: none;
+	}
+
+	#sidebar section {
+		margin: 0 0 47px 0;
+	}
+
+	#sidebar #about a.more {
+		display: block; text-align: right;
+	}
+
+	#sidebar #utilities {
+		width: 136px; float: left;
+		margin: 0 20px 0 0;
+	}
+
+	#sidebar #social {
+		width: 136px; float: left;
+	}
+        
+        #sidebar #search #searchbar {
+                width: 230px; height: 36px; float: left;
+                border: 1px solid #c7c7c7; padding: 0 45px 0 15px; margin: -8px 0 0 0;
+                background: #e2e2e2; /* Old browsers */
+                background: -moz-linear-gradient(top, #e2e2e2 0%, #ffffff 16%); /* FF3.6+ */
+                background: -webkit-linear-gradient(top, #e2e2e2 0%,#ffffff 16%); /* Chrome10+,Safari5.1+ */
+        
+                font-size: 14px; font-style: italic; color: #a2a2a2;
+        }
+        
+	#sidebar #search #searchsubmit {
+		width: 17px; height: 17px; float: right; margin: -27px 15px 0 0;
+		background: /*url(images/search-icon.png);*/ text-indent: -9999px;
+	}
+
+
+#footer-container {
+	background: rgba(0,0,0,0.2);
+        clear: both;
+}
+	footer {
+		margin: 0 auto; padding: 10px 22px 50px 22px;
+	}
+
+/* BANKNOTE LIST ITEMS */
+#banknote-list-item td{
+	border:1px solid black;
+	border-right: 1px solid #fff;
+	text-align:center;
+	vertical-align:top;	
+}
+
+#banknote-list-item th {
+	background-color:black;
+	color:white;
+	padding:10px;
+	border-right: 1px solid #fff;
+}
+
+#site-body{
+	background-size: 100%;
+}
+
+#site-container
+{
+	position:relative;
+	min-height:80%;
+	_height:100%;/* for IE6 as it doesnt understand min-height */
+	/*margin: 0 auto;
+	width: 100%;
+	background: #fff;*/
+}
+
+#site-banner
+{
+	padding: 20px;
+/*	background: #ccc;
+	border-radius:25px;
+   */
+}
+
+#site-banner h1 { margin: 0; }
+
+.navigation
+{
+	float: left;
+	width: 100%;
+	background: #333;
+/*	border-radius:25px;*/
+}
+
+.navigation ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+.navigation ul li
+{
+	list-style-type: none;
+	display: inline;
+}
+
+.navigation li a
+{
+	display: block;
+	float: left;
+	padding: 5px 10px;
+	color: #fff;
+	text-decoration: none;
+	border-right: 1px solid #fff;
+}
+
+.navigation li a:hover { background: #383; }
+
+.navigation a
+{
+	display: block;
+	float: left;
+	padding: 5px 10px;
+	color: #fff;
+	text-decoration: none;
+	border-right: 1px solid #fff;
+}
+
+.navigation a:hover { background: #383; }
+
+#login-links a {
+	display: block;
+	float: right;
+	padding: 5px 10px;
+	color: #fff;
+	text-decoration: none;
+	border-right: 1px solid #fff;
+}
+
+#login-links a:hover { background: #383; }
+
+#scratch-pad-links a {
+	display: block;
+	float: left;
+	padding: 5px 10px;
+	color: #fff;
+	text-decoration: none;
+	border-right: 1px solid #fff;
+}
+
+#site-left-sidebar
+{
+	float: left;
+	width: 10%;
+	padding: 20px 0;
+	margin: 0 2%;
+	display: inline;
+	list-style-type: none;
+}
+
+#site-left-sidebar ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+#site-left-sidebar ul li
+{
+	background: Silver;
+	margin: 0 0 1em;
+	padding: 0;
+	list-style-type: none;
+	border-right: 1em solid black	
+}
+
+#site-left-sidebar a
+{
+	margin: 0 0 1em;
+	padding: 0;
+	list-style-type: none;
+	text-decoration: none;
+}
+
+#site-content, #landing-content
+{
+	float: left;
+	width: 80%;
+	padding: 20px 0;
+	margin: 0 0 0 2%;
+	overflow:auto;
+}
+
+.footer
+{
+	min-height:10%;
+	clear: both;
+	background: #ccc;
+	text-align: right;
+	padding: 20px;
+/*	border-radius:25px;*/
+}
+
+.tag-cloud, .tags-with-count, .user-friend {
+	text-align: center;
+	border: 1px solid #313131;
+	padding: 5px;
+	background-color: #ccc;
+/*	border-radius:25px;*/
+}
+ 
+.tag-1 {    font-size: 12px;} 
+.tag-2 {    font-size: 13px;} 
+.tag-3 {    font-size: 14px;} 
+.tag-4 {    font-size: 15px;} 
+.tag-5 {    font-size: 16px;} 
+.tag-6 {    font-size: 17px;} 
+/* For large tag cloud 6 step */.tag-7 {    font-size: 18px;} 
+.tag-8 {    font-size: 19px;}
+
+.textarea {
+	display: block;
+}
+.comment {
+	margin: 1em;
+	padding: 5px;
+	border: 1px solid #000;
+}
+
+ul.messages {
+	border: 1px dashed #000;
+	margin: 1em 4em;
+	padding: 1em;
+}
+
+.banknoteObverse{
+	height: 200px;
+	width: 500px;
+	float:left;
+	margin:4px;
+	/* Giving the obverse div a relative positioning: */
+	position:relative;
+	cursor:pointer;
+}
+
+.banknoteImage {
+	height: 200px;
+	width: 500px;
+}
+
+.banknoteFlip{
+	/* The obverse div will be positioned absolutely with respect
+	to its parent .obverse div and fill it in entirely */
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	border:1px solid #ddd;
+	/*background:url("img/background.jpg") no-repeat center center #f9f9f9;*/
+}
+
+
+.banknoteFlip:hover{
+	border:1px solid #999;
+	/* CSS3 inset shadow: */
+	-moz-box-shadow:0 0 30px #999 inset;
+	-webkit-box-shadow:0 0 30px #999 inset;
+	box-shadow:0 0 30px #999 inset;
+}
+
+.banknoteReverse{
+	/* Hiding the .banknoteReverse div */
+	display:none;
+}
+
+.banknoteReverse img{
+	/* Centering the logo image in the middle of the .banknoteFlip div */
+	position:absolute;
+/*	top:50%;
+	left:50%;
+*/	margin:-70px 0 0 -70px;
+}
+
+.clear{
+	/* This class clears the floats */
+	clear:both;
+}
+
+#galleria{height:467px}

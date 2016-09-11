@@ -1,0 +1,11 @@
+
+<ul>
+	<li><a href="{% url show_statistics %}">Statistics</a></li>
+	<li><a href="{% url show_country_statistics %}">Statistics by Country</a></li>
+	<li><a href="{% url show_bank_statistics %}">Statistics by Bank</a></li>
+	<li><a href="{% url show_mint_statistics %}">Statistics by Mint</a></li>
+	<li><a href="{% url show_currency_unit_statistics %}">Statistics by Currency Units</a></li>
+	
+	<li><a href="/banknotes/user/{{ user.username }}/collage">Banknotes Collage</a></li>
+	<li><a href="/banknotes/user/{{ user.username }}/galleria">Banknotes Gallery</a></li>
+</ul>

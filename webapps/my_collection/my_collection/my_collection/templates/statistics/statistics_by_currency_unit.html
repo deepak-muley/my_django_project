@@ -1,0 +1,25 @@
+{% extends "site_base.html" %}
+
+{% block title %}Statistics by Currency unit{% endblock %}
+
+{% block content %}
+<h1>Statistics by Currency Units</h1>
+
+Total Currency Units = {{ total_currency_units }}
+<br/>
+Total Banknotes by currency unit : 
+<table id="stats_by_currency_unit" border="2" cellspacing="1" cellpadding="1">
+	<tr>
+		<th>Currency Unit</th>
+		<th>Total banknotes</th>
+	</tr>
+	{% for row in total_banknotes_by_currency_unit %}
+		<tr>
+			<td>{{ row.name }}</td>
+			<td>{{ row.num_notes_by_currency_unit }}</td>
+		</tr>
+	{% endfor %}
+</table> 
+
+{% endblock %}
+

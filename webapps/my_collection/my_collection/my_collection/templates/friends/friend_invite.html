@@ -1,0 +1,22 @@
+{% extends "site_base.html" %}
+
+{% block title %}Invite A Friend{% endblock %}
+
+{% block content %}
+
+	{% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	Enter your friend name and email below,
+	and click "send invite" to invite your friend to join the site:
+	<form method="post" action=".">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="send invite" />
+	</form>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "site_base.html" %}
+
+{% block title %}Banknotes Collection{% endblock %}
+
+{% load comments %}
+
+{% block content %}
+{% if banknote %}
+	<strong>Obverse Image : </strong><br/>
+	<a href="{{ MEDIA_PREFIX }}{{ banknote.obverse_img }}">
+		<img src="{{ MEDIA_PREFIX }}{{ banknote.obverse_img }}" height="100" width="200" />
+		<br />
+	</a>				
+	<strong>Reverse Image : </strong><br/>
+	<a href="{{ MEDIA_PREFIX }}{{ banknote.reverse_img }}">
+		<img src="{{ MEDIA_PREFIX }}{{ banknote.reverse_img }}" height="100" width="200" />
+		<br />
+	</a>				
+	<strong>Country	: </strong>{{ banknote.bank.country }}<br/>
+	<strong>Bank	: </strong>{{ banknote.bank }}<br/>
+	<strong>Mint	: </strong>{{ banknote.mint }}<br/>
+	<strong>Unit	: </strong>{{ banknote.unit }}<br/>
+	<strong>Value	: </strong>{{ banknote.value }}<br/>
+	<strong>Signed	: </strong>{{ banknote.signed_by }}<br/>
+	<strong>Series	: </strong>{{ banknote.series }}<br/>
+	<strong>Material: </strong>{{ banknote.material }}<br/>
+	<strong>Grade	: </strong>{{ banknote.grade }}<br/>
+	<strong>Main Color	: </strong>{{ banknote.main_color }}<br/>
+	<strong>Issued on	: </strong>{{ banknote.issue_date }}<br/>
+	<strong>Dimensions	: </strong>{{ banknote.dimensions }}<br/>
+	<strong>URL		: </strong>{{ banknote.url }}<br/>
+	<strong>Tags	:</strong><br/>
+	{% for tag in banknote.tags %}
+		<a href="/banknotes/user/{{ user.username }}/tag/{{ tag.name|slugify }}">{{ tag.name }}</a>
+	{% endfor %}
+	
+	<hr/>
+	<h2>Comments</h2>
+	{% get_comment_count for banknote as comment_count %}
+	{% get_comment_list for banknote as comment_list %}
+	{% for comment in comment_list %}
+		<div class="comment">
+			<p><strong>{{ comment.user.username }}</strong> said:</p>
+			{{ comment.comment|escape|urlizetrunc:40|linebreaks }}
+		</div>
+	{% endfor %}
+	<hr/>
+	<p>Number of comments: {{ comment_count }}</p>
+	<hr/>
+	<h2>Enter your comments here...</h2>
+	{% render_comment_form for banknote %}	
+	
+{% endif %}
+{% endblock %}

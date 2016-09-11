@@ -1,0 +1,44 @@
+from my_collection.banknotes.models import BankNote, Country, Bank, CurrencyUnit, Mint 
+from django.contrib import admin
+from django.contrib.contenttypes import generic
+
+class MintInline(admin.TabularInline):
+    model = Mint
+
+class MintAdmin(admin.ModelAdmin):
+   pass
+
+
+class CurrencyUnitInline(admin.TabularInline):
+    model = CurrencyUnit
+
+class CurrencyUnitAdmin(admin.ModelAdmin):
+    pass
+
+
+class BankInline(admin.TabularInline):
+    model = Bank
+
+class BankAdmin(admin.ModelAdmin):
+    pass
+
+
+class CountryInline(admin.TabularInline):
+    model = Country
+
+class CountryAdmin(admin.ModelAdmin):
+    pass
+
+class BankNoteAdmin(admin.ModelAdmin):
+    #===========================================================================
+    # list_display = ('denomination', 'grade')
+    # list_filter = ['denomination', 'grade']
+    # search_fields = ['denomination', 'grade']
+    #===========================================================================
+    pass
+
+admin.site.register(Mint, MintAdmin)
+admin.site.register(CurrencyUnit, CurrencyUnitAdmin)     
+admin.site.register(Bank, BankAdmin)     
+admin.site.register(Country, CountryAdmin)
+admin.site.register(BankNote, BankNoteAdmin)

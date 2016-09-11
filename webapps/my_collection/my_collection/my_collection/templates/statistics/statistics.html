@@ -1,0 +1,26 @@
+{% extends "site_base.html" %}
+
+{% block title %}All Statistics{% endblock %}
+{% block content %}
+<h1>Statistics of my collection</h1>
+
+Total Banknotes = {{ total_banknote_count }}
+</br>
+Total Banks = {{ total_bank_count }}
+</br>
+Total Countries = {{ total_country_count }}
+</br>
+Total Mints = {{ total_mint_count }}
+</br>
+Total Currency Units = {{ total_currency_unit_count }}
+</br>
+
+<!-- Add all country markers on the map -->
+Map of currency collection:
+<div id="map_canvas" style="height: 400px; border: dashed">
+{% for country in country_list %}
+    <script>setAddress('{{ country }}');</script>
+{% endfor %}
+
+{% endblock %}
+

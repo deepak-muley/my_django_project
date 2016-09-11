@@ -1,0 +1,20 @@
+{% extends "site_base.html" %}
+
+{% block title %}Welcome {{ user.username }}{% endblock %}
+
+{% block content %}
+	{% ifequal user.username username %}
+		<!-- Come here for logged on users -->
+		Welcome {{ user.username }} to your home page!
+	{% else %}
+		<!-- Come here if you are traversing friends pages -->
+		This is {{ username }}'s home page!
+	{% endifequal %}
+
+	</br>
+	</br>
+	<a href="/banknotes/user/{{ username }}/">{{ username }}'s banknote collection</a>
+	</br>
+	<a href="/accounts/friends/{{ username }}">{{ username }}'s Friends</a>
+	</br>
+{% endblock %}

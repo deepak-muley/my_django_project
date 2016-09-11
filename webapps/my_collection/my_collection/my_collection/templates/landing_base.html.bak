@@ -1,0 +1,39 @@
+{% extends "base.html" %} 
+
+{% block head_extra %}
+	<link rel="Stylesheet" type="text/css" href="/static/css/main_base.css" />
+	<!-- 
+		<link rel="SHORTCUT ICON" href="{{ STATIC_URL }}images/favicon.ico" />
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDTTr-qfNdPE0AJyUaivUdq_aEqrrp5nTQ&sensor=false"></script>
+	<script type="text/javascript" src="http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/src/markermanager.js"></script>
+	<script type="text/javascript" src="/static/scripts/map_script.js"></script>
+	-->	
+	<title>{% block title %}{% endblock %}</title>
+	
+{% endblock %}
+
+{% load banknote_tags %}
+
+{% block body-css-class %}landing-body{% endblock%}
+{% block body_wrapper %}
+
+	<div id="landing-banner">
+		<h1><a href="/">Deepak Muley</a><h1>
+	</div> <!-- end of landing-banner div -->
+	<div id="landing-container">
+		<div class="navigation">
+			<a href="http://www.deepakmuley.blogspot.com">My Blog</a>		
+			<a href="http://www.linkedin.com/in/deepakmuley">My Linkedin</a>
+			<a href="/find_your_location">Find your Location</a>
+			<div id="login-links">
+				{% include 'tags/login_logout_box.html' %}
+			</div>
+		</div> <!-- end of landing-navigation div -->
+		<div id="landing-content">
+			{% block content %} {% endblock %}
+		</div> <!-- end of landing-content div -->
+	</div> <!-- end of landing-container div -->
+	<div class="footer">
+		{% footer_links %}
+	</div> <!-- end of footer div -->
+{% endblock %}

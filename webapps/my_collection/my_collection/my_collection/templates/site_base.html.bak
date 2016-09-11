@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block head_extra %}
+	<link rel="Stylesheet" type="text/css" href="/static/css/main_base.css" />
+	<!-- 
+		<link rel="SHORTCUT ICON" href="{{ STATIC_URL }}images/favicon.ico" /> 
+	-->
+	<link rel="alternate" type="application/rss+xml" title="Banknotes | Recent Banknotes" href="/banknotes/recent/rss" />
+	
+	<title>{% block title %}{% endblock %}</title>
+	
+{% endblock %}
+
+{% load banknote_tags %}
+
+{% block body-css-class %}site-body{% endblock%}
+
+{% block body_wrapper %}
+	<div id="site-banner">
+		<h1>Currency Collection<h1>
+	</div> <!-- end of site-banner div -->
+	<div id="site-container">
+		<div class="navigation">
+			{% include 'tags/navigation.html' %}
+			<div id="login-links">
+				{% include 'tags/login_logout_box.html' %}
+			</div>
+		</div> <!-- end of navigation div -->
+		<div id="site-left-sidebar">
+			{% include 'tags/statistics_links.html' %}
+		</div> <!-- end of site-left-sidebar div -->
+		<div id="site-content">
+				{% block content %} {% endblock %}
+		</div> <!-- end of site-content div -->
+	</div> <!-- end of container div -->
+	<div class="footer">
+			{% footer_links %}
+	</div> <!-- end of footer div -->
+</div>
+{% endblock %}

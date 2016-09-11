@@ -1,0 +1,13 @@
+{% extends "landing_base.html" %} 
+
+{% block title %}Welcome to Deepak Muley's World{% endblock %}
+{% block body-onload %}map_initialize(){% endblock %}
+{% block content %}
+<script type="text/javascript" src="/static/scripts/find_my_location.js"></script>	
+
+    <div>
+	<!--<button id="btnInit" >Find my location</button>-->
+	<div id="map_canvas" style="height: 400px;">
+    </div>
+	
+{% endblock %}

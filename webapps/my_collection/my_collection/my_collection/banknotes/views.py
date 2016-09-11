@@ -1,0 +1,158 @@
+from django.shortcuts import render_to_response, get_object_or_404
+from django.template import Context, loader, RequestContext
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
+from django.views.generic import ListView, DetailView
+from django.contrib.auth.models import User
+from django.db.models import Count
+from django.contrib.contenttypes.models import ContentType
+from tagging.models import TaggedItem, Tag
+
+from my_collection import settings
+from my_collection.banknotes.models import BankNote, Country, Bank, Mint, CurrencyInfo
+from my_collection.banknotes.forms import BanknoteSaveForm
+from my_collection.accounts.models import Friendship
+
+def unslugify(value):
+    return value.replace('_', ' ').replace('-', ' ')
+
+@login_required    
+def get_banknotes(request, user_name='', tag_name='', page_num=1):
+   
+   user = get_object_or_404(User, username=user_name)
+      
+   if tag_name:
+       # TODO: for time being always show my collection, later enable following line
+       # banknote_list = BankNote.objects.filter(album__user__username=request.user.username, tag=tag_name)
+       query_tag = Tag.objects.get(name=unslugify(tag_name))
+       banknote_list = TaggedItem.objects.get_by_model(BankNote, query_tag)
+       # pass
+   else:
+       # TODO: for time being always show my collection, later enable following line
+       # banknote_list = BankNote.objects.filter(album__user__username=request.user.username)
+       banknote_list = BankNote.objects.filter(user__username=settings.SUPER_USER)
+   
+   num = getattr(settings, 'BANKNOTES_PER_PAGE', 5)
+   paginator = Paginator(banknote_list, num) 
+
+   # Make sure page request is an int. If not, deliver first page.
+   try:
+       page = int(page_num)
+   except ValueError:
+       page = 1
+        
+   try:
+       banknote_list_page = paginator.page(page)
+   except PageNotAnInteger:
+       # If page is not an integer, deliver first page.
+       banknote_list_page = paginator.page(1)
+   except (EmptyPage, InvalidPage):
+       # If page is out of range (e.g. 9999), deliver last page of results.
+       banknote_list_page = paginator.page(paginator.num_pages)
+
+
+   if request.user.is_authenticated():
+        is_friend = Friendship.objects.filter(
+                                              from_friend=request.user,
+                                              to_friend=user
+                                              )
+   else:
+        is_friend = False
+       
+   context = {
+        'username': user_name,
+        'banknote_list_page': banknote_list_page,
+        'total_banknotes': banknote_list.count(),
+        'current_tag': unslugify(tag_name),
+        'is_friend': is_friend,
+    }
+   return render_to_response('banknotes/banknote_list.html', context, context_instance=RequestContext(request))
+
+@login_required
+def show_statistics(request):
+    total_banknote_count = BankNote.objects.count()
+    total_bank_count = Bank.objects.count()    
+    total_country_count = Country.objects.count()
+    total_mint_count = Mint.objects.count()
+    total_currency_unit_count = CurrencyInfo.objects.count()
+    return render_to_response('statistics/statistics.html', 
+                              {
+                               "total_banknote_count" : total_banknote_count,
+                               "total_bank_count" : total_bank_count,
+                               "total_country_count" : total_country_count,
+                               "total_mint_count" : total_mint_count,
+                               "total_currency_unit_count" : total_currency_unit_count,
+                               "country_list" : Country.objects.all(),
+                               }, context_instance=RequestContext(request))
+
+@login_required
+def show_country_statistics(request):
+    total_countries = Country.objects.count()
+    total_banknotes_by_country = Country.objects.annotate(num_notes_by_country=Count('bank__banknote'))
+    return render_to_response('statistics/statistics_by_country.html', 
+                            {
+                                "total_countries" : total_countries,
+                                "total_banknotes_by_country" : total_banknotes_by_country
+                            }, context_instance=RequestContext(request))
+    
+@login_required
+def show_bank_statistics(request):
+    total_banks = Bank.objects.count()
+    total_banknotes_by_bank = Bank.objects.annotate(num_notes_by_bank=Count('banknote'))
+    return render_to_response('statistics/statistics_by_bank.html', 
+                            {
+                                "total_banks" : total_banks,
+                                "total_banknotes_by_bank" : total_banknotes_by_bank
+                            }, context_instance=RequestContext(request))
+
+@login_required
+def show_mint_statistics(request):
+    total_mints = Mint.objects.count()
+    total_banknotes_by_mint = Mint.objects.annotate(num_notes_by_mint=Count('banknote'))
+    return render_to_response('statistics/statistics_by_mint.html', 
+                            {
+                                "total_mints" : total_mints,
+                                "total_banknotes_by_mint" : total_banknotes_by_mint
+                            }, context_instance=RequestContext(request))
+
+@login_required
+def show_currency_unit_statistics(request):
+    total_currency_units = CurrencyInfo.objects.count()
+    total_banknotes_by_currency_unit = CurrencyInfo.objects.annotate(num_notes_by_currency_unit=Count('banknote'))
+    return render_to_response('statistics/statistics_by_currency_unit.html', 
+                            {
+                                "total_currency_units" : total_currency_units,
+                                "total_banknotes_by_currency_unit" : total_banknotes_by_currency_unit
+                            }, context_instance=RequestContext(request))
+
+@login_required
+def save_banknote(request):
+    """ view displaying customer registration form """
+    if request.method == 'POST':
+        postdata = request.POST.copy()
+        form = BanknoteSaveForm(postdata)
+        if form.is_valid():
+            form.save()
+            url = urlresolvers.reverse('banknotes_by_page')
+            return HttpResponseRedirect(url)
+                
+    else:
+        form = BanknoteSaveForm()
+    page_title = 'User Registration'
+    return render_to_response('banknotes/banknote_save.html', locals(), context_instance=RequestContext(request))
+
+@login_required
+def show_banknote_collage(request, user_name=''):
+    """ This view shows all the banknotes images on one page. also allows to flip on click and shows the back image """
+    banknote_list = BankNote.objects.all()
+    return render_to_response('banknotes/banknote_collage.html', {"banknote_list" : banknote_list}, context_instance=RequestContext(request))
+
+@login_required
+def show_banknote_galleria(request, user_name=''):
+    """ This view shows all the banknotes images on one page as a slide show. """
+    banknote_list = BankNote.objects.all()
+    return render_to_response('banknotes/banknote_galleria.html', {"banknote_list" : banknote_list}, context_instance=RequestContext(request))

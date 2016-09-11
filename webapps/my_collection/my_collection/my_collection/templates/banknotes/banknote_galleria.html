@@ -1,0 +1,22 @@
+{% extends "site_base.html" %}
+{% block title %}Banknotes Collection collage{% endblock %}
+
+{% load tagging_tags %}
+
+{% block content %}
+
+	<div id="galleria">
+		{% if banknote_list %}
+			{% for bn in banknote_list %}
+				<img alt="Obverse of Banknote" src="{{ MEDIA_URL }}{{ bn.obverse_img }}">
+				<img alt="Reverse of Banknote" src="{{ MEDIA_URL }}{{ bn.reverse_img }}">
+			{% endfor %}
+		{% endif %}
+	</div>
+
+<script>
+	Galleria.loadTheme('/static/galleria/themes/classic/galleria.classic.min.js');
+        Galleria.run('#galleria');
+</script>
+    
+{% endblock %}

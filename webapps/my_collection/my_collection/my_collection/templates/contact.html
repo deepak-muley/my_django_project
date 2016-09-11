@@ -1,0 +1,25 @@
+{% extends "site_base.html" %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<h1>Contact Me</h1>
+
+Feel free to send me any queries. 
+<br />
+<br />
+<div class="vcard">
+  <div class="fn org">My Collection</div>
+  <div class="adr">
+    <div class="street-address">12345 My Way Ave</div>
+    <div>
+      <span class="locality">Town</span>, 
+      <abbr class="region" title="California">CA</abbr>
+      <span class="postal-code">12345</span>
+    </div>
+    <div class="country-name">USA</div>
+  </div>
+  <div>Phone: <span class="tel">+1-555-555-1212</span></div>
+  <div>Email: <span class="email">info@mycollection.com</span></div>
+</div>
+{% endblock %}

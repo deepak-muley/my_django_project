@@ -1,0 +1,25 @@
+{% extends "site_base.html" %}
+
+{% block title %}Statistics by Bank{% endblock %}
+
+{% block content %}
+<h1>Statistics by Bank</h1>
+
+Total Banks = {{ total_banks }}
+<br/>
+Total Banknotes by bank : 
+<table id="stats_by_bank" border="2" cellspacing="1" cellpadding="1">
+	<tr>
+		<th>Bank</th>
+		<th>Total banknotes</th>
+	</tr>
+	{% for row in total_banknotes_by_bank %}
+		<tr>
+			<td>{{ row.name }}</td>
+			<td>{{ row.num_notes_by_bank }}</td>
+		</tr>
+	{% endfor %}
+</table> 
+
+{% endblock %}
+

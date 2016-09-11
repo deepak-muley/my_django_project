@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 100% }
+    </style>
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDTTr-qfNdPE0AJyUaivUdq_aEqrrp5nTQ&sensor=false">
+	    </script>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+	  /*google.load("maps", "3",  {callback: initialize, other_params:"sensor=false"});      */
+
+<!-- plotting lag/lat on the map 
+      function initialize() {
+        var myOptions = {
+          center: new google.maps.LatLng(53.800651, -1.454),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map_canvas"),
+            myOptions);
+      }
+-->
+	 <!-- GeoCoding sample -->      
+	  var geocoder;
+	  var map;
+	  function initialize_2() {
+	    geocoder = new google.maps.Geocoder();
+	    var latlng = new google.maps.LatLng(-34.397, 150.644);
+
+	    var myOptions = {
+	      zoom: 8,
+	      center: latlng,
+	      mapTypeId: google.maps.MapTypeId.ROADMAP
+	    }
+	    
+	    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+		var marker = new google.maps.Marker({
+	        position: latlng,
+	        map: map,
+	        title:"This is test place."
+	    });
+	    alert("checking...");
+
+		// If ClientLocation was filled in by the loader, use that info instead
+	    if (google.loader.ClientLocation != null) {
+	    	alert("found");
+			var client_latlng = new google.maps.LatLng(
+	            google.loader.ClientLocation.latitude,
+	            google.loader.ClientLocation.longitude
+	        );
+	        
+			var client_loc_marker = new google.maps.Marker({
+		        position: client_latlng,
+		        map: map,
+		        title:"This is your place."
+		    });
+		} else {
+			alert("not found2");
+		}		
+	    var contentString = 'Hello <strong>World</strong>!';
+		var infowindow = new google.maps.InfoWindow({
+    		content: contentString
+		});
+		
+		google.maps.event.addListener(marker, 'click', function() {
+		      infowindow.open(map,marker);
+		});		
+	  }
+	
+	  function codeAddress() {
+	    var address = document.getElementById("address").value;
+	    geocoder.geocode( { 'address': address}, function(results, status) {
+	      if (status == google.maps.GeocoderStatus.OK) {
+	        map.setCenter(results[0].geometry.location);
+	        var marker = new google.maps.Marker({
+	            map: map, 
+	            position: results[0].geometry.location
+	        });
+	      } else {
+	        alert("Geocode was not successful for the following reason: " + status);
+	      }
+	    });
+	  }
+    </script>
+    
+	<script type="text/javascript">
+	
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-31059524-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	
+	</script>    
+  </head>
+  <body onload="initialize_2()">
+	<div>
+	    <input id="address" type="textbox" value="Pune, India">
+	    <input type="button" value="Geocode" onclick="codeAddress()">
+	  </div>
+	<div id="map_canvas" style="height:90%;top:30px"></div>
+    
+  </body>
+</html>

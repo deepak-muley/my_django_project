@@ -1,0 +1,37 @@
+
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+-->
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	
+	<link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+	
+	<!-- General Initialization -->
+	<script type="text/javascript" src="/static/scripts/initialize.js"></script>
+	
+	<!-- Google Analytics-->
+	<script type="text/javascript" src="/static/scripts/google-analytics.js"></script>
+
+	<!-- Google Maps-->
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDTTr-qfNdPE0AJyUaivUdq_aEqrrp5nTQ&sensor=false"></script>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="/static/scripts/maps.js"></script>
+	
+	{% block head_extra %}{% endblock %}
+</head>
+<body id="{% block body-css-class %}{% endblock %}" >
+<!--
+	<script type="text/javascript" src="/static/scripts/jquery-1.3.1.min.js"></script>
+	<script type="text/javascript" src="/static/scripts/scripts.js"></script>
+-->
+	{% block body_wrapper %}{% endblock %}
+	
+</body>
+</html>

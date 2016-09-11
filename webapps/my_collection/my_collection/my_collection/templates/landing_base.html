@@ -1,0 +1,33 @@
+{% extends "base.html" %} 
+
+{% block head_extra %}
+	<title>{% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% load banknote_tags %}
+
+{% block body-css-class %}landing-body{% endblock %}
+
+{% block body_wrapper %}
+
+	<div id="landing-banner">
+		<h1>Deepak Muley<h1>
+	</div> <!-- end of landing-banner div -->
+	<div id="landing-container">
+		<div class="navigation">
+			<a href="/">Home</a>		
+			<a href="http://www.deepakmuley.blogspot.com">My Blog</a>		
+			<a href="http://www.linkedin.com/in/deepakmuley">My Linkedin</a>
+			<a href="/find_your_location">Find your Location</a>
+			<div id="login-links">
+				{% include 'tags/login_logout_box.html' %}
+			</div>
+		</div> <!-- end of landing-navigation div -->
+		<div id="landing-content">
+			{% block content %} {% endblock %}
+		</div> <!-- end of landing-content div -->
+	</div> <!-- end of landing-container div -->
+	<div class="footer">
+		{% footer_links %}
+	</div> <!-- end of footer div -->
+{% endblock %}

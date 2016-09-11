@@ -1,0 +1,25 @@
+{% extends "site_base.html" %}
+
+{% block title %}Statistics by Mint{% endblock %}
+
+{% block content %}
+<h1>Statistics by Mint</h1>
+
+Total Mints = {{ total_mints }}
+<br/>
+Total Banknotes by mint : 
+<table id="stats_by_mint" border="2" cellspacing="1" cellpadding="1">
+	<tr>
+		<th>Mint</th>
+		<th>Total banknotes</th>
+	</tr>
+	{% for row in total_banknotes_by_mint %}
+		<tr>
+			<td>{{ row.name }}</td>
+			<td>{{ row.num_notes_by_mint }}</td>
+		</tr>
+	{% endfor %}
+</table> 
+
+{% endblock %}
+
